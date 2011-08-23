@@ -64,6 +64,15 @@ def get_magnet_link(post_link):
             return line[start+len("href=\""):line.find("\">")]
         
 def parse():
+    #check for update
+    if globals.last_update_tag == feed["entries"][0]["updated"]:
+        print "No update"
+        globals.write_log(0, "Checking RSS...", "No Update.")
+        return False
+    else:
+        globals.write_log(0, "Checking RSS...")
+        globals.last_update_tag = feed["entries"][0]["updated"]
+    #parse seed info
     for item in feed["entries"]:
 #        for k, v in item.iteritems():
 #            print k, ":", v
@@ -80,13 +89,14 @@ def parse():
 #                                      get_magnet_link(get_post_link(item)))
 #                    print get_post_link(item)
 #                    print get_seed_link(item)
-#                    print get_magnet_link(get_post_link(item))
+#                    print get_magnet_link(get_post_link(item))
+    return True
 if __name__ == "__main__":
     print "rss_parse: Hello world."
 #    for k, v in feed.iteritems():
 #        print k
 #    print "--------------------------------------------------"
-##    print feed["headers"]
+#    print feed["entries"][0]
 #    for item in feed["entries"]:
 #        for k, v in item.iteritems():
 #            print k, ":", v
@@ -96,5 +106,6 @@ if __name__ == "__main__":
 #        print get_seed_link(item)
 #        print get_magnet_link(get_post_link(item))
 #        break
+    keyword_filter.init_keywords_list()
     parse()
     print globals.seed_list

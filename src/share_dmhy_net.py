@@ -6,7 +6,7 @@ Created on Aug 21, 2011
 @author: flyxian
 '''
 
-host = "http://share.dmhy.net"
+host = "http://share.dmhy.org"
 login_uri = "/user/login"
 
 feed_uri = "/topics/rss/rss.xml"
