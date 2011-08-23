@@ -21,6 +21,9 @@ def init_keywords_list(filename="keywords"):
     global keywords_list
     keywords_list = []
     for line in lines:
+        if line[0] == "#" or len(line) == 0:
+            continue
+        
         if debug > 2:
             print line.strip()
             
