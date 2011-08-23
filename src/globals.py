@@ -12,7 +12,7 @@ import time
 import codecs
 
 NAME = "AA RSS News Reader"
-VERSION = 0.1
+VERSION = 0.2
 
 debug = 0
 
