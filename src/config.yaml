@@ -10,5 +10,6 @@ trconfig: {
 rss_config: {
     update_period: 5,
     check_duplication: False,
-    keywords_list: ./keywords
+    keywords_list: ./keywords,
+    shell_output: True
 }

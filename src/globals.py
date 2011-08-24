@@ -24,7 +24,8 @@ trconfig = {"host" : "192.168.1.5",
 
 rss_config = {"update_period" : 5, 
               "check_duplication" : False, 
-              "keywords_list" : "./keywords"}
+              "keywords_list" : "./keywords", 
+              "shell_output" : True}
 
 def init_configs(filename):
     configs = yaml.load(file(filename))
@@ -33,6 +34,10 @@ def init_configs(filename):
     global rss_config
     trconfig = configs["trconfig"]
     rss_config = configs["rss_config"]
+    
+    global debug
+    if rss_config["shell_output"]:
+        debug = 1
 
 #runtime variables
 last_update_tag = ""
@@ -60,18 +65,26 @@ def add_seed_info(title, post_link, seed_link, magnet_link=""):
 logfile = codecs.open("log", "w+", "utf-8")
 log_output_level= 3
 
+sep = "-----------------------------"
 def write_log(level=0, *args):
     if level > log_output_level:
         return
     
     timestamp = time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())
     if len(args) > 1:
-        print >> logfile, "-----------------------------"
+        print >> logfile, sep
         print >> logfile, timestamp
+        if debug > 0:
+            print sep
+            print timestamp
     else:
         print >> logfile, timestamp,
+        if debug > 0:
+            print timestamp,
     for arg in args:
         print >> logfile, arg
+        if debug > 0:
+            print arg
         
     logfile.flush()
         
