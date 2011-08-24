@@ -72,16 +72,23 @@ def parse():
     else:
         globals.write_log(0, "Checking RSS...")
         globals.last_update_tag = feed["entries"][0]["updated"]
+        
+    counter = 0
     #parse seed info
     for item in feed["entries"]:
 #        for k, v in item.iteritems():
 #            print k, ":", v
 #        print item["title"]
+        if globals.last_update_tag == item["updated"]:
+            #only check the updated part
+            break
+        
         if keyword_filter.check(item["title"]):
             globals.add_seed_info(item["title"], 
                                   get_post_link(item), 
                                   get_seed_link(item), 
                                   get_magnet_link(get_post_link(item)))
+        counter += 1
 #            if check_keywords(keywords, item["title"]):
 #                globals.add_seed_info(item["title"], 
 #                                      get_post_link(item), 
@@ -90,6 +97,9 @@ def parse():
 #                    print get_post_link(item)
 #                    print get_seed_link(item)
 #                    print get_magnet_link(get_post_link(item))
+    msg = "Checked %d new items" % counter
+    print msg
+    globals.write_log(0, msg)
     return True
 if __name__ == "__main__":
     print "rss_parse: Hello world."
