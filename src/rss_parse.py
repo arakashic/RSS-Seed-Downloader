@@ -66,6 +66,7 @@ def get_magnet_link(post_link):
 def parse():
     feed = feedparser.parse(feed_url, 
                             agent=USER_AGENT);
+    time.sleep(10)
     #check for update
     if globals.last_update_tag == feed["entries"][0]["updated"]:
         print "No update"
