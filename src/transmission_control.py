@@ -22,6 +22,9 @@ def connect():
                                 port=globals.trconfig["port"], 
                                 user=globals.trconfig["user"], 
                                 password=globals.trconfig["password"])
+    globals.write_log(0, 
+                      "Connected to Transmission RPC server at %s:%d" 
+                      % (globals.trconfig["host"], globals.trconfig["port"]))
 
 def download_seed(seed_info):
     global tc
@@ -34,7 +37,7 @@ def download_seed(seed_info):
             else:
                 tc.add_uri(seed_info["magnet"])
     except transmissionrpc.error.TransmissionError, e:
-        globals.write_log(0, 
+        globals.write_log(1, 
                           e.message, 
                           "Error :\t%s" % seed_info["title"], 
                           "\t%s" % seed_info["post"], 

@@ -23,12 +23,14 @@ if __name__ == "__main__":
     #daemonize.daemonize(stdout=output, stderr=output, pidfile=pid_file)
     os.chdir(cwd)
     
-    print "main: Hello world."
+#    print "main: Hello world."
+    globals.write_log(0, "Starting...", "")
     globals.init_configs("test_config.yaml")
     keyword_filter.init_keywords_list(globals.rss_config["keywords_list"])
     rss_parse.init()
     transmission_control.connect()
     
+    globals.write_log(0, "Running...", "")
     while True:
         ret = rss_parse.parse()
         if ret:

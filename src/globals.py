@@ -45,9 +45,7 @@ def init_configs(filename):
     if rss_config["shell_output"]:
         debug = 1
         
-    print trconfig
-    print site_config
-    print rss_config
+    write_log(0, "Read configs from %s" % filename) 
 
 #runtime variables
 last_update_tag = ""
