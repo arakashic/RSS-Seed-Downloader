@@ -5,7 +5,7 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-
+import time
 import feedparser
 
 import globals
@@ -23,8 +23,8 @@ user = browser_bogus.Browser("", "", USER_AGENT)
     
 feed_url = share_dmhy_net.host + share_dmhy_net.feed_uri
 
-feed = feedparser.parse(feed_url, 
-                        agent=USER_AGENT);
+#feed = feedparser.parse(feed_url, 
+#                        agent=USER_AGENT);
 
 def get_post_link(item):
     ret = ""
@@ -64,10 +64,13 @@ def get_magnet_link(post_link):
             return line[start+len("href=\""):line.find("\">")]
         
 def parse():
+    feed = feedparser.parse(feed_url, 
+                            agent=USER_AGENT);
+    time.sleep(10)
     #check for update
     if globals.last_update_tag == feed["entries"][0]["updated"]:
         print "No update"
-        globals.write_log(0, "Checking RSS...", "No Update.")
+        globals.write_log(0, "No Update.")
         return False
     else:
         print "Updating"
