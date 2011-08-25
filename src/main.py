@@ -33,7 +33,7 @@ if __name__ == "__main__":
     globals.write_log(0, "Running...", "")
     while True:
         ret = rss_parse.parse()
-        if ret:
+        if ret > 0:
             for seed in globals.seed_list:
                 transmission_control.download_seed(seed)
                 

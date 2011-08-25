@@ -79,7 +79,7 @@ def parse():
     if globals.last_update_tag == feed["entries"][0]["updated"]:
         print "No update"
         globals.write_log(0, "No Update.")
-        return False
+        return 0
     else:
         print "Updating"
         globals.write_log(0, "Checking RSS...")
@@ -95,6 +95,7 @@ def parse():
             #only check the updated part
             break
         
+        print "Item: %s" % item["title"]
         if keyword_filter.check(item["title"]):
             match += 1
             globals.add_seed_info(item["title"], 
@@ -114,7 +115,7 @@ def parse():
                       "Checked %d new items" % counter, 
                       " %d seed post matches" % match)
     globals.last_update_tag = feed["entries"][0]["updated"]
-    return True
+    return match
 def test():
     feed = feedparser.parse(feed_url, 
                             agent=USER_AGENT);
