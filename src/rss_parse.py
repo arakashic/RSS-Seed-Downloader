@@ -5,7 +5,7 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-import time
+
 import feedparser
 
 import globals
@@ -20,12 +20,18 @@ USER_AGENT = "%s/%f" % (globals.NAME, globals.VERSION)
 user = browser_bogus.Browser("", "", USER_AGENT)
 
 #def login(user):
-btsite.site_ktxp()    
 feed_url = btsite.host + btsite.feed_uri
 
 #feed = feedparser.parse(feed_url, 
 #                        agent=USER_AGENT);
 
+def init():
+    if globals.site_config["backup_site"]:
+        btsite.site_ktxp()
+        
+    global feed_url
+    feed_url = btsite.host + btsite.feed_uri
+            
 def get_post_link(item):
     ret = ""
     for link in item["links"]:
@@ -61,7 +67,9 @@ def get_magnet_link(post_link):
     for line in pagelines:
         start = line.find("href=\"magnet")
         if start >= 0:
-            return line[start+len("href=\""):line.find("\">")]
+            offset = len("href=\"")
+            end = line[start+offset:].find("\">")
+            return line[start+offset:end]
         
 def parse():
     feed = feedparser.parse(feed_url, 
@@ -140,5 +148,6 @@ if __name__ == "__main__":
 #    test()
     globals.init_configs("test_config.yaml")
     keyword_filter.init_keywords_list()
+    init()
     parse()
     print globals.seed_list

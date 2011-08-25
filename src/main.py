@@ -26,6 +26,7 @@ if __name__ == "__main__":
     print "main: Hello world."
     globals.init_configs("test_config.yaml")
     keyword_filter.init_keywords_list(globals.rss_config["keywords_list"])
+    rss_parse.init()
     transmission_control.connect()
     
     while True:
