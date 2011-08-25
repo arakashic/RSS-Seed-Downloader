@@ -30,7 +30,7 @@ def init_keywords_list(filename="keywords"):
         words = line.strip().lower().split(" ")
         keywords_list.append(words)
         
-    if debug > 2:
+    if debug > 3:
         print keywords_list
 
 def check_keywords(keywords, title):

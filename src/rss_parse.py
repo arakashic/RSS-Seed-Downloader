@@ -11,7 +11,7 @@ import feedparser
 import globals
 
 import browser_bogus
-import share_dmhy_net
+import btsite 
 import keyword_filter
 
 #USER_AGENT = "UniversalFeedParser/5.0.1 +http://feedparser.org/"
@@ -20,8 +20,8 @@ USER_AGENT = "%s/%f" % (globals.NAME, globals.VERSION)
 user = browser_bogus.Browser("", "", USER_AGENT)
 
 #def login(user):
-    
-feed_url = share_dmhy_net.host + share_dmhy_net.feed_uri
+btsite.site_ktxp()    
+feed_url = btsite.host + btsite.feed_uri
 
 #feed = feedparser.parse(feed_url, 
 #                        agent=USER_AGENT);
@@ -66,7 +66,7 @@ def get_magnet_link(post_link):
 def parse():
     feed = feedparser.parse(feed_url, 
                             agent=USER_AGENT);
-    time.sleep(10)
+
     #check for update
     if globals.last_update_tag == feed["entries"][0]["updated"]:
         print "No update"
@@ -75,7 +75,6 @@ def parse():
     else:
         print "Updating"
         globals.write_log(0, "Checking RSS...")
-        globals.last_update_tag = feed["entries"][0]["updated"]
         
     counter = 0
     match = 0
@@ -89,7 +88,7 @@ def parse():
             break
         
         if keyword_filter.check(item["title"]):
-            match += 0
+            match += 1
             globals.add_seed_info(item["title"], 
                                   get_post_link(item), 
                                   get_seed_link(item), 
@@ -106,22 +105,39 @@ def parse():
     globals.write_log(0, 
                       "Checked %d new items" % counter, 
                       " %d seed post matches" % match)
+    globals.last_update_tag = feed["entries"][0]["updated"]
     return True
-if __name__ == "__main__":
-    print "rss_parse: Hello world."
-#    for k, v in feed.iteritems():
-#        print k
-#    print "--------------------------------------------------"
-#    print feed["entries"][0]
-#    for item in feed["entries"]:
-#        for k, v in item.iteritems():
-#            print k, ":", v
-#            
+def test():
+    feed = feedparser.parse(feed_url, 
+                            agent=USER_AGENT);
+
+    for k, v in feed.iteritems():
+        print k
+    print "--------------------------------------------------"
+    print feed["encoding"]
+    for item in feed["entries"]:
+        for k, v in item.iteritems():
+            print k, ":", v
+        break
 #        print check_keywords([tag_string], item["title"])
 #        print get_post_link(item)
 #        print get_seed_link(item)
 #        print get_magnet_link(get_post_link(item))
 #        break
+    
+    #check for update
+    if globals.last_update_tag == feed["entries"][0]["updated"]:
+        print "No update"
+        globals.write_log(0, "No Update.")
+        return False
+    else:
+        print "Updating"
+        globals.write_log(0, "Checking RSS...")
+        globals.last_update_tag = feed["entries"][0]["updated"]
+        
+if __name__ == "__main__":
+    print "rss_parse: Hello world."
+#    test()
     globals.init_configs("test_config.yaml")
     keyword_filter.init_keywords_list()
     parse()

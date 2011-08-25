@@ -27,13 +27,19 @@ rss_config = {"update_period" : 5,
               "keywords_list" : "./keywords", 
               "shell_output" : True}
 
+site_config = {"backup_site" : False,
+               "torrent_file" : False}
+
 def init_configs(filename):
     configs = yaml.load(file(filename))
     
     global trconfig
     global rss_config
+    global site_config
+    
     trconfig = configs["trconfig"]
     rss_config = configs["rss_config"]
+    site_config = configs["site_config"]
     
     global debug
     if rss_config["shell_output"]:
