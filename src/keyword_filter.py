@@ -5,7 +5,7 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-debug = 3
+debug = 2
 
 test_kwl = [["花开", "轻之国度"],
             ["美食", "mkv", "异域字幕组"]]
@@ -21,14 +21,17 @@ def init_keywords_list(filename="keywords"):
     global keywords_list
     keywords_list = []
     for line in lines:
+        if line[0] == "#" or len(line) == 0:
+            continue
+        
         if debug > 2:
             print line.strip()
             
         words = line.strip().lower().split(" ")
         keywords_list.append(words)
         
-#    if debug > 2:
-#        print keywords_list
+    if debug > 2:
+        print keywords_list
 
 def check_keywords(keywords, title):
     counter = 0
@@ -36,7 +39,7 @@ def check_keywords(keywords, title):
     for word in keywords:
         if debug > 3:
             print "Checking: %s" % word
-        if checkee.find(word) >= 0:
+        if checkee.encode("utf-8").find(word) >= 0:
             counter += 1
     
     if counter == len(keywords):

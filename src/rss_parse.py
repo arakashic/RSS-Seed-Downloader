@@ -5,7 +5,7 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-
+import time
 import feedparser
 
 import globals
@@ -72,6 +72,7 @@ def parse():
         globals.write_log(0, "No Update.")
         return False
     else:
+        print "Updating"
         globals.write_log(0, "Checking RSS...")
         globals.last_update_tag = feed["entries"][0]["updated"]
         
@@ -120,6 +121,7 @@ if __name__ == "__main__":
 #        print get_seed_link(item)
 #        print get_magnet_link(get_post_link(item))
 #        break
+    globals.init_configs("test_config.yaml")
     keyword_filter.init_keywords_list()
     parse()
     print globals.seed_list
