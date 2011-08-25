@@ -20,7 +20,7 @@ if __name__ == "__main__":
     cwd = os.getcwd()
     output = os.path.join(cwd, "rss-seeddl.log")
     pid_file = os.path.join(cwd, "rss-seeddl.pid")
-    daemonize.daemonize(stdout=output, stderr=output, pidfile=pid_file)
+    #daemonize.daemonize(stdout=output, stderr=output, pidfile=pid_file)
     os.chdir(cwd)
     
     print "main: Hello world."

@@ -13,3 +13,8 @@ rss_config: {
     keywords_list: ./keywords,
     shell_output: True
 }
+
+site_config: {
+    backup_site: False,
+    torrent_file: False
+}
