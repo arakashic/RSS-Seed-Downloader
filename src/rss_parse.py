@@ -31,6 +31,8 @@ def init():
         
     global feed_url
     feed_url = btsite.host + btsite.feed_uri
+    
+    globals.write_log(0, "FEED: %s" % feed_url)
             
 def get_post_link(item):
     ret = ""
@@ -72,8 +74,12 @@ def get_magnet_link(post_link):
             return line[start+offset:end]
         
 def parse():
-    feed = feedparser.parse(feed_url, 
-                            agent=USER_AGENT);
+    try:
+        feed = feedparser.parse(feed_url, 
+                                agent=USER_AGENT);
+    except:
+        globals.write_log(1, "Failed to update feed")
+        return 0
 
     #check for update
     if globals.last_update_tag == feed["entries"][0]["updated"]:
@@ -117,8 +123,12 @@ def parse():
     globals.last_update_tag = feed["entries"][0]["updated"]
     return match
 def test():
-    feed = feedparser.parse(feed_url, 
-                            agent=USER_AGENT);
+    try:
+        feed = feedparser.parse(feed_url, 
+                                agent=USER_AGENT);
+    except:
+        globals.write_log(1, "Failed to update feed")
+        return 0
 
     for k, v in feed.iteritems():
         print k
