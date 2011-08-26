@@ -5,7 +5,7 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-
+import urlparse
 import feedparser
 
 import globals
@@ -40,6 +40,8 @@ def get_post_link(item):
         if link["rel"] == "alternate":
             ret = link["href"]
             break
+    temp = urlparse.urlparse(ret)
+    ret = btsite.host + temp.path
     return ret
 
 def get_seed_link(item):
@@ -82,13 +84,17 @@ def parse():
         return 0
 
     #check for update
-    if globals.last_update_tag == feed["entries"][0]["updated"]:
-        print "No update"
-        globals.write_log(0, "No Update.")
+    try:
+        if globals.last_update_tag == feed["entries"][0]["updated"]:
+            print "No update"
+            globals.write_log(0, "No Update.")
+            return 0
+        else:
+            print "Updating"
+            globals.write_log(0, "Checking RSS...")
+    except:
+        globals.write_log(1, "Failed to update feed")
         return 0
-    else:
-        print "Updating"
-        globals.write_log(0, "Checking RSS...")
         
     counter = 0
     match = 0
