@@ -29,7 +29,7 @@ def download_seed(seed_info):
     globals.write_log(0, 
                       "Add seed: %s" % seed_info["title"], 
                       "\t%s" % seed_info["post"], 
-                      "\t%s" % seed_info["seed"][-41:],
+                      "\t%s" % seed_info["seed"][-40:],
                       "\t%s" % seed_info["magnet"][:52])
 
 
