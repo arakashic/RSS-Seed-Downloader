@@ -13,7 +13,7 @@ import codecs
 import hashlib
 
 NAME = "AA RSS News Reader"
-VERSION = 0.3
+VERSION = 0.4
 
 debug = 0
 

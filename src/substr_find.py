@@ -15,6 +15,8 @@ def find(string, keyword):
     while i < len_str:
         j = 0
         while j < len_key:
+            if i + j >= len_str:
+                return False
             if string[i+j] != keyword[j]:
                 break
             j += 1
