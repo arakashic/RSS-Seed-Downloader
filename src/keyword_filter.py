@@ -38,6 +38,8 @@ def init_keywords_list(filename="keywords"):
 def check_keywords(keywords, title):
     counter = 0
     checkee = title.lower()
+    kw_flags = []
+
     for word in keywords:
         if debug > 3:
             print "Checking: %s" % word
@@ -45,10 +47,22 @@ def check_keywords(keywords, title):
 #            counter += 1
         if substr_find.find(checkee, word):
             counter += 1
+            if debug > 1:
+                kw_flags.append(True)
+        else:
+            if debug > 1:
+                kw_flags.append(False)
+                
     
     if counter == len(keywords):
         return True
     else:
+        if debug > 1:
+            print "Miss matched keywords:",
+            for i in range(0,len(kw_flags)):
+                if not kw_flags[i]:
+                    print "[%d]%s" % (i,keywords[i]),
+            print " "
         return False
     
 def check(text):

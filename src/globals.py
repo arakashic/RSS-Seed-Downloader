@@ -44,6 +44,8 @@ def init_configs(filename):
     global debug
     if rss_config["shell_output"]:
         debug = 1
+        
+    write_log(0, "Read configs from %s" % filename) 
 
 #runtime variables
 last_update_tag = ""
@@ -86,7 +88,7 @@ def write_log(level=0, *args):
     if level > log_output_level:
         return
     
-    timestamp = time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime())
+    timestamp = time.strftime("[%a, %d %b %Y %H:%M:%S +0000]", time.gmtime())
     if len(args) > 1:
         print >> logfile, sep
         print >> logfile, timestamp
