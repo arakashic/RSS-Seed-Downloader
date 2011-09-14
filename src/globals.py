@@ -55,7 +55,7 @@ seed_list = []
 local_torrent_list = set()
 
 def check_duplication(seed_info):
-    seed_hash = hashlib.md5(seed_info["title"]).hexdigest()
+    seed_hash = hashlib.md5(seed_info["title"].encode('utf-8')).hexdigest()
     if seed_hash not in local_torrent_list:
         local_torrent_list.add(seed_hash)
         return True
