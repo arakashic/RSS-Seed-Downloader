@@ -10,9 +10,12 @@ def find(string, keyword):
     hit_q = []
     len_str = len(string)
     len_key = len(keyword)
+    if len_str < len_str or len_key == 0:
+        return False
+    
     i = 0
     
-    while i < len_str:
+    while i < len_str - len_key:
         j = 0
         while j < len_key:
             if i + j >= len_str:

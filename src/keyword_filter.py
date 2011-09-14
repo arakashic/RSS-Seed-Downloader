@@ -29,7 +29,7 @@ def init_keywords_list(filename="keywords"):
         if debug > 2:
             print line.strip()
             
-        words = line.strip().lower().split(" ")
+        words = unicode(line.strip().lower(), 'utf-8').split(" ")
         keywords_list.append(words)
         
     if debug > 3:
@@ -45,7 +45,8 @@ def check_keywords(keywords, title):
             print "Checking: %s" % word
 #        if checkee.encode("utf-8").find(word) >= 0:
 #            counter += 1
-        if substr_find.find(checkee, word):
+#        if substr_find.find(checkee, word):
+        if checkee.find(word) >= 0:
             counter += 1
             if debug > 1:
                 kw_flags.append(True)
