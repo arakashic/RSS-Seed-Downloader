@@ -5,7 +5,7 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-import time
+import urlparse
 import feedparser
 
 import globals
@@ -20,18 +20,28 @@ USER_AGENT = "%s/%f" % (globals.NAME, globals.VERSION)
 user = browser_bogus.Browser("", "", USER_AGENT)
 
 #def login(user):
-btsite.site_ktxp()    
 feed_url = btsite.host + btsite.feed_uri
 
 #feed = feedparser.parse(feed_url, 
 #                        agent=USER_AGENT);
 
+def init():
+    if globals.site_config["backup_site"]:
+        btsite.site_ktxp()
+        
+    global feed_url
+    feed_url = btsite.host + btsite.feed_uri
+    
+    globals.write_log(0, "FEED: %s" % feed_url)
+            
 def get_post_link(item):
     ret = ""
     for link in item["links"]:
         if link["rel"] == "alternate":
             ret = link["href"]
             break
+    temp = urlparse.urlparse(ret)
+    ret = btsite.host + temp.path
     return ret
 
 def get_seed_link(item):
@@ -61,20 +71,30 @@ def get_magnet_link(post_link):
     for line in pagelines:
         start = line.find("href=\"magnet")
         if start >= 0:
-            return line[start+len("href=\""):line.find("\">")]
+            offset = len("href=\"")
+            end = line[start+offset:].find("\">")
+            return line[start+offset:end]
         
 def parse():
-    feed = feedparser.parse(feed_url, 
-                            agent=USER_AGENT);
+    try:
+        feed = feedparser.parse(feed_url, 
+                                agent=USER_AGENT);
+    except:
+        globals.write_log(1, "Failed to update feed")
+        return 0
 
     #check for update
-    if globals.last_update_tag == feed["entries"][0]["updated"]:
-        print "No update"
-        globals.write_log(0, "No Update.")
-        return False
-    else:
-        print "Updating"
-        globals.write_log(0, "Checking RSS...")
+    try:
+        if globals.last_update_tag == feed["entries"][0]["updated"]:
+            print "No update"
+            globals.write_log(0, "No Update.")
+            return 0
+        else:
+            print "Updating"
+            globals.write_log(0, "Checking RSS...")
+    except:
+        globals.write_log(1, "Failed to update feed")
+        return 0
         
     counter = 0
     match = 0
@@ -87,6 +107,7 @@ def parse():
             #only check the updated part
             break
         
+        print "Item: %s" % item["title"]
         if keyword_filter.check(item["title"]):
             match += 1
             globals.add_seed_info(item["title"], 
@@ -106,10 +127,14 @@ def parse():
                       "Checked %d new items" % counter, 
                       " %d seed post matches" % match)
     globals.last_update_tag = feed["entries"][0]["updated"]
-    return True
+    return match
 def test():
-    feed = feedparser.parse(feed_url, 
-                            agent=USER_AGENT);
+    try:
+        feed = feedparser.parse(feed_url, 
+                                agent=USER_AGENT);
+    except:
+        globals.write_log(1, "Failed to update feed")
+        return 0
 
     for k, v in feed.iteritems():
         print k
@@ -140,5 +165,6 @@ if __name__ == "__main__":
 #    test()
     globals.init_configs("test_config.yaml")
     keyword_filter.init_keywords_list()
+    init()
     parse()
     print globals.seed_list
