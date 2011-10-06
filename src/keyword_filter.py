@@ -5,10 +5,12 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-debug = 2
+debug = 1
 
-test_kwl = [["花开", "轻之国度"],
-            ["美食", "mkv", "异域字幕组"]]
+import substr_find
+
+test_kwl = [["èŠ±å¼€", "è½»ä¹‹å›½åº¦"],
+            ["ç¾Žé£Ÿ", "mkv", "å¼‚åŸŸå­—å¹•ç»„"]]
 
 #keyword list, if without initialization use test_kwl
 keywords_list = test_kwl
@@ -27,7 +29,7 @@ def init_keywords_list(filename="keywords"):
         if debug > 2:
             print line.strip()
             
-        words = line.strip().lower().split(" ")
+        words = unicode(line.strip().lower(), 'utf-8').split(" ")
         keywords_list.append(words)
         
     if debug > 3:
@@ -41,7 +43,10 @@ def check_keywords(keywords, title):
     for word in keywords:
         if debug > 3:
             print "Checking: %s" % word
-        if checkee.encode("utf-8").find(word) >= 0:
+#        if checkee.encode("utf-8").find(word) >= 0:
+#            counter += 1
+        if checkee.find(word) >= 0:
+#        if substr_find.find(checkee, word):
             counter += 1
             if debug > 1:
                 kw_flags.append(True)
@@ -53,7 +58,7 @@ def check_keywords(keywords, title):
     if counter == len(keywords):
         return True
     else:
-        if debug > 1:
+        if debug > 1 and counter == len(keywords) - 1:
             print "Miss matched keywords:",
             for i in range(0,len(kw_flags)):
                 if not kw_flags[i]:
@@ -74,5 +79,5 @@ def check(text):
 if __name__ == "__main__":
     print "keyword_filter: Hello world."
     init_keywords_list()
-    
+    print check("[è½»ä¹‹å›½åº¦][é�’ä¹‹é©±é­”å¸ˆ][ç¬¬22è¯�][GB][480P][MP4]")
     

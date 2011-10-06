@@ -35,6 +35,7 @@ if __name__ == "__main__":
         ret = rss_parse.parse()
         if ret > 0:
             for seed in globals.seed_list:
-                transmission_control.download_seed(seed)
+                if globals.check_duplication(seed):
+                    transmission_control.download_seed(seed)
                 
         time.sleep(globals.rss_config["update_period"]*60)

@@ -10,6 +10,7 @@ Created on Aug 21, 2011
 import yaml
 import time
 import codecs
+import hashlib
 
 NAME = "AA RSS News Reader"
 VERSION = 0.3
@@ -23,7 +24,6 @@ trconfig = {"host" : "192.168.1.5",
             "password" : "bt880326"}
 
 rss_config = {"update_period" : 5, 
-              "check_duplication" : False, 
               "keywords_list" : "./keywords", 
               "shell_output" : True}
 
@@ -51,6 +51,16 @@ def init_configs(filename):
 last_update_tag = ""
 
 seed_list = []
+
+local_torrent_list = set()
+
+def check_duplication(seed_info):
+    seed_hash = hashlib.md5(seed_info["title"].encode('utf-8')).hexdigest()
+    if seed_hash not in local_torrent_list:
+        local_torrent_list.add(seed_hash)
+        return True
+    else:
+        return False
 
 def add_seed_info(title, post_link, seed_link, magnet_link=""):
     #check duplication
