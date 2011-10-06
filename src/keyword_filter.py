@@ -5,7 +5,7 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-debug = 2
+debug = 1
 
 import substr_find
 
