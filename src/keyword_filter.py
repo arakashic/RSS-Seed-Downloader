@@ -5,7 +5,7 @@ Created on Aug 21, 2011
 
 @author: flyxian
 '''
-debug = 2
+debug = 1
 
 import substr_find
 
@@ -58,7 +58,7 @@ def check_keywords(keywords, title):
     if counter == len(keywords):
         return True
     else:
-        if debug > 1:
+        if debug > 1 and counter == len(keywords) - 1:
             print "Miss matched keywords:",
             for i in range(0,len(kw_flags)):
                 if not kw_flags[i]:
