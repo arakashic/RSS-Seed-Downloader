@@ -9,8 +9,13 @@ debug = 1
 
 import substr_find
 
+<<<<<<< HEAD
 test_kwl = [["èŠ±å¼€", "è½»ä¹‹å›½åº¦"],
             ["ç¾Žé£Ÿ", "mkv", "å¼‚åŸŸå­—å¹•ç»„"]]
+=======
+test_kwl = [["花开", "轻之国度"],
+            ["美食", "mkv", "异域字幕组"]]
+>>>>>>> release-0.4
 
 #keyword list, if without initialization use test_kwl
 keywords_list = test_kwl
@@ -45,8 +50,13 @@ def check_keywords(keywords, title):
             print "Checking: %s" % word
 #        if checkee.encode("utf-8").find(word) >= 0:
 #            counter += 1
+<<<<<<< HEAD
         if checkee.find(word) >= 0:
 #        if substr_find.find(checkee, word):
+=======
+#        if substr_find.find(checkee, word):
+        if checkee.find(word) >= 0:
+>>>>>>> release-0.4
             counter += 1
             if debug > 1:
                 kw_flags.append(True)
@@ -79,5 +89,10 @@ def check(text):
 if __name__ == "__main__":
     print "keyword_filter: Hello world."
     init_keywords_list()
+<<<<<<< HEAD
     print check("[è½»ä¹‹å›½åº¦][é�’ä¹‹é©±é­”å¸ˆ][ç¬¬22è¯�][GB][480P][MP4]")
+=======
+    print check("[轻之国度][青之驱魔师][第22话][GB][480P][MP4]")
+    
+>>>>>>> release-0.4
     
